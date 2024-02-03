@@ -26,8 +26,23 @@
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "mod_directory.h"
+
+// NOTE: caller takes ownership of the returned value
+//void substr(char* str, char* sub , int start, int len){
+    //memcpy(sub, &str[start], len);
+    //sub[len] = '\0';
+//}
+
+int substr(char dest[], char src[], int offset, int len)
+{
+  int i;
+  for(i = 0; i < len && src[offset + i] != '\0'; i++)
+	dest[i] = src[i + offset];
+  dest[i] = '\0';
+}
 
 //make a directory with the name filename
 void make_dir_(char * filename, int * len_file)
@@ -45,6 +60,7 @@ void make_dir_(char * filename, int * len_file)
       exit(1);
       }
 } 
+
 
 //copy files from directory dir1 to dir2
 void rename_file_ (char * dir1, char * dir2, int * len_dir1, int * len_dir2)
@@ -65,14 +81,4 @@ void rename_file_ (char * dir1, char * dir2, int * len_dir1, int * len_dir2)
     exit(1);
    }
 }
-
-
-substr(char dest[], char src[], int offset, int len)
-{
-  int i;
-  for(i = 0; i < len && src[offset + i] != '\0'; i++)
-	dest[i] = src[i + offset];
-  dest[i] = '\0';
-}
-
 
